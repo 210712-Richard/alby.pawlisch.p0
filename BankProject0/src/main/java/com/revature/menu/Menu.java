@@ -16,7 +16,7 @@ public class Menu {
 	public void start() {
 		
 		
-		while(true) {
+		mainLoop: while(true) {
 			switch(startMenu()) {
 			// LOGIN
 			case 1:
@@ -38,10 +38,19 @@ public class Menu {
 						break;
 					case BANKER:
 						banker();
-						break();
+						break;
 					
 					}
 				}
+				
+			// CREATE ACCOUNT
+			case 2:
+				break;
+			// QUIT
+			case 3:
+				break mainLoop;
+			default:
+				System.out.println("Invalid option. Please try again.");
 				
 			}
 		}
@@ -49,6 +58,20 @@ public class Menu {
 		
 	}
 	
+	// selecting an option from the menu
+	private int select() {
+		int selection;
+		try {
+			selection = Integer.parseInt(scan.nextLine());
+		} catch(Exception e) {
+			selection = -1;
+		}
+		
+		return selection;
+	}
+	
+	
+	// menus
 	private int startMenu() {
 		System.out.println("Thank you for choosing Pearl Bank.");
 		System.out.println("What would you like to do?");
@@ -58,5 +81,15 @@ public class Menu {
 		
 		return select();
 	}
+	
+	private int customer() {
+		
+	}
+	
+	private int banker() {
+		
+	}
+	
+	
 
 }

@@ -13,7 +13,7 @@ public class User implements Serializable {
 	private Long money;
 	// add the stuff for loan requests and approval later
 
-}
+
 
 public User() {
 	super();
@@ -133,6 +133,8 @@ public boolean equals(Object obj) {
 public String toString() {
 	return "User [id=" + id + ", username=" + username + ", email=" + email + ", phone=" + phone + ", type=" + type
 			+ ", money=" + money + "]";
+}
+
 }
 
 

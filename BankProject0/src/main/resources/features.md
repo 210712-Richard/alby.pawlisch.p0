@@ -16,6 +16,7 @@
 *As a banker, I can approve a loan.
 
 ##To Do
-*2-3 unit tests?
+*3 unit tests
 *password function
 *loan request and approval (wait for api?)
+*log statements

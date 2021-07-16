@@ -71,24 +71,77 @@ public class Menu {
 	}
 	
 	
-	// menus
-	private int startMenu() {
-		System.out.println("Thank you for choosing Pearl Bank.");
-		System.out.println("What would you like to do?");
-		System.out.println("\t1. Login");
-		System.out.println("\t2. Create an Account");
-		System.out.println("\t3. Quit");
+	
+	
+	private void customer() {
+		customerLoop: while(true) {
+			// view account balance (money), deposit money, withdraw money, apply for loan, log out
+			switch(customerMenu()) {
+			// View account balance
+			case 1:
+				break;
+			// Deposit money
+			case 2:
+				break;
+			// Withdraw money
+			case 3:
+				break;
+			// Apply for loan
+			case 4:
+				break;
+			// Log Out
+			case 5:
+				break customerLoop;
+			default:
+				System.out.println("Invalid option. Please try again.");
+				
+			}
+		}
 		
-		return select();
 	}
 	
-	private int customer() {
+	private void banker() {
+		bankerLoop: while(true) {
+			// "view my account balance", view other's account balances, Deposit money to "my" account,
+			// Withdraw money from "my" account, approve loan requests, log out
+			switch(bankerMenu()) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break bankerLoop;
+			default:
+				System.out.println("Invalid option. Please try again.");
+			}
+		}
 		
 	}
 	
-	private int banker() {
+	// MENUS
+		private int startMenu() {
+			System.out.println("Thank you for choosing Pearl Bank.");
+			System.out.println("What would you like to do?");
+			System.out.println("\t1. Login");
+			System.out.println("\t2. Create an Account");
+			System.out.println("\t3. Quit");
+			
+			return select();
+		}
 		
-	}
+		private int customerMenu() {
+			return select();
+		}
+		
+		private int bankerMenu() {
+			return select();
+		}
 	
 	
 

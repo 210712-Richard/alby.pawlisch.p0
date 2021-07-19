@@ -2,32 +2,47 @@ package com.revature.menu;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.beans.User;
 import com.revature.services.UserService;
 import com.revature.util.SingletonScanner;
 
 public class Menu {
 	
+	private static final Logger log = LogManager.getLogger(Menu.class);
+	
 	private UserService us = new UserService();
 	private User loggedUser = null;
+	private User attemptedUser = null;
 	private Scanner scan = SingletonScanner.getScanner().getScan();
 	private Long newMoney = null;
 	
 	public void start() {
-		
-		
+		log.trace("Begin the bank application. start()");
 		mainLoop: while(true) {
 			switch(startMenu()) {
 			// LOGIN
 			case 1:
 				System.out.println("Please enter your username: ");
 				String username = scan.nextLine();
+				log.debug(username);
 				// get the user
 				User u = us.login(username);
 				if(u == null) {
 					// if user name is wrong
-					System.out.println("Please try again.");
+					log.warn("Unsuccessful login attempt using "+username);
+					System.out.println("Incorrect username. Please try again.");
 				} else {
+					/*
+					attemptedUser = u;
+					System.out.println("Enter password: ");
+					String password = scan.nextLine();
+					log.debug(password);
+					
+					if(u.password == password)
+					*/
 					loggedUser = u;
 					System.out.println("Hello, " + u.getUsername());
 					
@@ -48,12 +63,14 @@ public class Menu {
 				break;
 			// QUIT
 			case 3:
+				System.out.println("Goodbye!");
 				break mainLoop;
 			default:
 				System.out.println("Invalid option. Please try again.");
 				
 			}
 		}
+		log.trace("Ending start()");
 		
 		
 	}
@@ -71,14 +88,14 @@ public class Menu {
 				// Deposit money
 				depositMenu();
 				us.Deposit(loggedUser, newMoney);
-				
+				log.trace("Deposited "+newMoney+" to balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
 				break;
 			case 3:
 				// Withdraw money
 				withdrawMenu();
 				us.Withdraw(loggedUser, newMoney);
-				
+				log.trace("Withdrew "+newMoney+" from balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
 				break;
 			case 4:
@@ -109,14 +126,14 @@ public class Menu {
 				// deposit
 				depositMenu();
 				us.Deposit(loggedUser, newMoney);
-				
+				log.trace("Deposited "+newMoney+" to balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
 				break;
 			case 3:
 				// withdraw
 				withdrawMenu();
 				us.Withdraw(loggedUser, newMoney);
-				
+				log.trace("Withdrew "+newMoney+" from balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
 				break;
 			case 4:
@@ -161,29 +178,34 @@ public class Menu {
 		}
 	
 	
-	// MENUS
+	
 		private int startMenu() {
+			log.trace("called startMenu()");
 			System.out.println("Thank you for choosing Pearl Bank.");
 			System.out.println("What would you like to do?");
 			System.out.println("\t1. Login");
 			System.out.println("\t2. Create an Account");
 			System.out.println("\t3. Quit");
-			
-			return select();
+			int selection = select();
+			log.trace("Start menu returning selection: "+selection);
+			return selection;
 		}
 		
 		private int customerMenu() {
+			log.trace("called customer()");
 			System.out.println("What would you like to do?");
 			System.out.println("\t1. View Account Balance");
 			System.out.println("\t2. Deposit Money");
 			System.out.println("\t3. Withdraw Money");
 			System.out.println("\t4. Apply for Loan");
 			System.out.println("\t5. Log Out");
-			
-			return select();
+			int selection = select();
+			log.trace("Customer menu returning selection: "+selection);
+			return selection;
 		}
 		
 		private int bankerMenu() {
+			log.trace("called banker()");
 			System.out.println("What would you like to do?");
 			System.out.println("\t1. View My Account Balance");
 			System.out.println("\t2. Deposit Money");
@@ -192,12 +214,14 @@ public class Menu {
 			System.out.println("\t4. View Other's Account Balance");
 			System.out.println("\t5. View Loan Requests");
 			System.out.println("\t6. Log Out");
-			
-			return select();
+			int selection = select();
+			log.trace("Banker menu returning selection: "+selection);
+			return selection;
 		}
 		
 		
 		private long depositMenu() {
+			log.trace("called depositMenu()");
 			System.out.println("How much would you like to deposit into your account?");
 			
 			newMoney = moneyChange();
@@ -205,6 +229,7 @@ public class Menu {
 		}
 		
 		private long withdrawMenu() {
+			log.trace("called withdrawMenu()");
 			System.out.println("How much would you like to withdraw from your account?");
 			
 			newMoney = moneyChange();

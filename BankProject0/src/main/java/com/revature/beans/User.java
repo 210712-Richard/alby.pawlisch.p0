@@ -11,6 +11,7 @@ public class User implements Serializable {
 	private String phone;
 	private UserType type;
 	private Long money;
+	private String password;
 	// add the stuff for loan requests and approval later
 
 
@@ -20,13 +21,14 @@ public User() {
 	this.type = UserType.CUSTOMER;
 }
 
-public User(Integer id, String username, String email, String phone, Long money) {
+public User(Integer id, String username, String email, String phone, Long money, String password) {
 	this();
 	this.id = id;
 	this.username = username;
 	this.email = email;
 	this.phone = phone;
 	this.money = money;
+	this.password = password;
 }
 
 public Integer getId() {
@@ -77,13 +79,22 @@ public void setMoney(Long money) {
 	this.money = money;
 }
 
+public String getPassword() {
+	return password;
+}
+
+public void setPassword(String password) {
+	this.password = password;
+}
+
 @Override
 public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + ((money == null) ? 0 : money.hashCode());
 	result = prime * result + ((email == null) ? 0 : email.hashCode());
 	result = prime * result + ((id == null) ? 0 : id.hashCode());
+	result = prime * result + ((money == null) ? 0 : money.hashCode());
+	result = prime * result + ((password == null) ? 0 : password.hashCode());
 	result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 	result = prime * result + ((type == null) ? 0 : type.hashCode());
 	result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -99,11 +110,6 @@ public boolean equals(Object obj) {
 	if (getClass() != obj.getClass())
 		return false;
 	User other = (User) obj;
-	if (money == null) {
-		if (other.money != null)
-			return false;
-	} else if (!money.equals(other.money))
-		return false;
 	if (email == null) {
 		if (other.email != null)
 			return false;
@@ -113,6 +119,16 @@ public boolean equals(Object obj) {
 		if (other.id != null)
 			return false;
 	} else if (!id.equals(other.id))
+		return false;
+	if (money == null) {
+		if (other.money != null)
+			return false;
+	} else if (!money.equals(other.money))
+		return false;
+	if (password == null) {
+		if (other.password != null)
+			return false;
+	} else if (!password.equals(other.password))
 		return false;
 	if (phone == null) {
 		if (other.phone != null)
@@ -132,10 +148,13 @@ public boolean equals(Object obj) {
 @Override
 public String toString() {
 	return "User [id=" + id + ", username=" + username + ", email=" + email + ", phone=" + phone + ", type=" + type
-			+ ", money=" + money + "]";
+			+ ", money=" + money + ", password=" + password + "]";
 }
 
+
+
 }
+
 
 
 

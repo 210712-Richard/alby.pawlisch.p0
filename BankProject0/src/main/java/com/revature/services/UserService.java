@@ -23,5 +23,15 @@ public class UserService {
 		user.setMoney(user.getMoney() - money);
 		ud.writeToFile();
 	}
+	
+	public void register(String username, String email, String phone, Long money) {
+		User u = new User();
+		u.setUsername(username);
+		u.setEmail(email);
+		u.setPhone(phone);
+		u.setMoney(money);
+		ud.addUser(u);
+		ud.writeToFile();
+	}
 
 }

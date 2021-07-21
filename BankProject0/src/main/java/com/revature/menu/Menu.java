@@ -67,6 +67,7 @@ public class Menu {
 						}
 						
 					*/
+					// password work end
 					// insert another } before final break; when working
 
 					loggedUser = u;

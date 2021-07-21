@@ -2,7 +2,7 @@ package com.revature.services;
 
 import com.revature.beans.User;
 import com.revature.data.UserDAO;
-import com.revature.menu.Menu;
+
 
 public class UserService {
 	
@@ -24,14 +24,22 @@ public class UserService {
 		ud.writeToFile();
 	}
 	
-	public void register(String username, String email, String phone, Long money) {
+	public boolean checkAvailability(String newName) {
+		return ud.getUsers()
+				.stream()
+				.noneMatch((u)->u.getUsername().equals(newName));
+	}
+	
+	public void register(String username, String password, String email, String phone) {
 		User u = new User();
 		u.setUsername(username);
 		u.setEmail(email);
 		u.setPhone(phone);
-		u.setMoney(money);
+		u.setPassword(password);
+		u.setMoney(0l);
 		ud.addUser(u);
 		ud.writeToFile();
 	}
+
 
 }

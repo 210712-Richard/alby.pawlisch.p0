@@ -12,7 +12,6 @@ public class User implements Serializable {
 	private UserType type;
 	private Long money;
 	private String password;
-	// add the stuff for loan requests and approval later
 
 
 

@@ -1,6 +1,9 @@
 package com.revature.menu;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,14 +38,37 @@ public class Menu {
 					log.warn("Unsuccessful login attempt using "+username);
 					System.out.println("Incorrect username. Please try again.");
 				} else {
+					//password work start
 					/*
+					
 					attemptedUser = u;
 					System.out.println("Enter password: ");
 					String password = scan.nextLine();
 					log.debug(password);
 					
-					if(u.password == password)
+					if(u.getPassword() != password) {
+						log.warn("Unsuccessful login attempt to "+username+" using password: "+password);
+						System.out.println("Incorrect password.");
+						continue mainLoop;
+					}else {
+					
+						loggedUser = u;
+						System.out.println("Hello, " + u.getUsername());
+						
+						// go to either customer menu or banker menu
+						switch(loggedUser.getType()) {
+						case CUSTOMER:
+							customer();
+							break;
+						case BANKER:
+							banker();
+							break;
+						
+						}
+						
 					*/
+					// insert another } before final break; when working
+
 					loggedUser = u;
 					System.out.println("Hello, " + u.getUsername());
 					
@@ -54,12 +80,31 @@ public class Menu {
 					case BANKER:
 						banker();
 						break;
-					
 					}
-				}
+					
 				
+				}
+				break;
 			// CREATE ACCOUNT
 			case 2:
+				System.out.println("Choose your username: ");
+				String newName = scan.nextLine();
+				if(!us.checkAvailability(newName)) {
+					System.out.println("Username not available, please try again.");
+					continue mainLoop;
+				}
+				System.out.println("Enter your password: ");
+				String password = scan.nextLine();
+				
+				System.out.println("Enter your email address: ");
+				String email = scan.nextLine();
+				
+				System.out.println("Enter your phone number (XXX-XXX-XXXX): ");
+				String phone = scan.nextLine();
+				
+				System.out.println("Registering...");
+				us.register(newName, password, email, phone);
+				
 				break;
 			// QUIT
 			case 3:
@@ -71,9 +116,7 @@ public class Menu {
 			}
 		}
 		log.trace("Ending start()");
-		
-		
-	}
+	} 
 	
 	
 	private void customer() {
@@ -82,18 +125,23 @@ public class Menu {
 			switch(customerMenu()) {
 			case 1:
 				// View account balance
-				System.out.println("You have " + loggedUser.getMoney() + "in your account.");
+				System.out.println("You have " + loggedUser.getMoney() + " in your account.");
 				break;
 			case 2:
 				// Deposit money
-				depositMenu();
+				System.out.println("How much would you like to deposit into your account?");
+				
+				newMoney = moneyChange();
 				us.Deposit(loggedUser, newMoney);
 				log.trace("Deposited "+newMoney+" to balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
 				break;
 			case 3:
 				// Withdraw money
-				withdrawMenu();
+				System.out.println("How much would you like to withdraw from your account?");
+				
+				newMoney = moneyChange();
+				
 				us.Withdraw(loggedUser, newMoney);
 				log.trace("Withdrew "+newMoney+" from balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
@@ -120,18 +168,24 @@ public class Menu {
 			switch(bankerMenu()) {
 			case 1:
 				// view own account
-				System.out.println("You have " + loggedUser.getMoney() + "in your account.");
+				System.out.println("You have " + loggedUser.getMoney() + " in your account.");
 				break;
 			case 2:
 				// deposit
-				depositMenu();
+				System.out.println("How much would you like to deposit into your account?");
+				
+				newMoney = moneyChange();
+				
 				us.Deposit(loggedUser, newMoney);
 				log.trace("Deposited "+newMoney+" to balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
 				break;
 			case 3:
 				// withdraw
-				withdrawMenu();
+				System.out.println("How much would you like to withdraw from your account?");
+				
+				newMoney = moneyChange();
+				
 				us.Withdraw(loggedUser, newMoney);
 				log.trace("Withdrew "+newMoney+" from balance");
 				System.out.println("Your new balance is " + loggedUser.getMoney() + ".");
@@ -220,21 +274,6 @@ public class Menu {
 		}
 		
 		
-		private long depositMenu() {
-			log.trace("called depositMenu()");
-			System.out.println("How much would you like to deposit into your account?");
-			
-			newMoney = moneyChange();
-			return newMoney;
-		}
-		
-		private long withdrawMenu() {
-			log.trace("called withdrawMenu()");
-			System.out.println("How much would you like to withdraw from your account?");
-			
-			newMoney = moneyChange();
-			return newMoney;
-		}
 	
 	
 

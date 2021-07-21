@@ -32,7 +32,6 @@ public class UserDAO {
 	}
 	
 	
-	// login, no password rn
 	public User getUser (String username) {
 		
 		for (User user : users) {
@@ -44,9 +43,14 @@ public class UserDAO {
 		return null;
 	}
 	
+	public List<User> getUsers(){
+		return users;
+	}
+	
 	
 	public void addUser(User u) {
-		
+		u.setId(users.size());
+		users.add(u);
 	}
 	
 	public void writeToFile() {

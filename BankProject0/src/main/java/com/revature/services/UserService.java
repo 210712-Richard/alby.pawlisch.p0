@@ -6,7 +6,7 @@ import com.revature.data.UserDAO;
 
 public class UserService {
 	
-	private UserDAO ud = new UserDAO();
+	public UserDAO ud = new UserDAO();
 	
 	public User login(String name) {
 		User u = ud.getUser(name);
@@ -29,6 +29,14 @@ public class UserService {
 				.stream()
 				.noneMatch((u)->u.getUsername().equals(newName));
 	}
+	
+	public boolean checkIfExists(String newName) {
+		return ud.getUsers()
+				.stream()
+				.anyMatch((u)->u.getUsername().equals(newName));
+	}
+	
+	
 	
 	public void register(String username, String password, String email, String phone) {
 		User u = new User();

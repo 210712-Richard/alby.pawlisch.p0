@@ -1,9 +1,6 @@
 package com.revature.menu;
 
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +15,6 @@ public class Menu {
 	
 	private UserService us = new UserService();
 	private User loggedUser = null;
-	private User attemptedUser = null;
 	private Scanner scan = SingletonScanner.getScanner().getScan();
 	private Long newMoney = null;
 	
@@ -38,20 +34,17 @@ public class Menu {
 					log.warn("Unsuccessful login attempt using "+username);
 					System.out.println("Incorrect username. Please try again.");
 				} else {
-					//password work start
-					/*
 					
-					attemptedUser = u;
 					System.out.println("Enter password: ");
 					String password = scan.nextLine();
 					log.debug(password);
 					
-					if(u.getPassword() != password) {
+					if(!u.getPassword().equals(password)) {
 						log.warn("Unsuccessful login attempt to "+username+" using password: "+password);
 						System.out.println("Incorrect password.");
 						continue mainLoop;
 					}else {
-					
+				
 						loggedUser = u;
 						System.out.println("Hello, " + u.getUsername());
 						
@@ -66,24 +59,7 @@ public class Menu {
 						
 						}
 						
-					*/
-					// password work end
-					// insert another } before final break; when working
-
-					loggedUser = u;
-					System.out.println("Hello, " + u.getUsername());
-					
-					// go to either customer menu or banker menu
-					switch(loggedUser.getType()) {
-					case CUSTOMER:
-						customer();
-						break;
-					case BANKER:
-						banker();
-						break;
 					}
-					
-				
 				}
 				break;
 			// CREATE ACCOUNT
@@ -193,6 +169,18 @@ public class Menu {
 				break;
 			case 4:
 				// view others' balances
+				System.out.println("Enter the username of the account balance you'd like to view: ");
+				
+				String inputUser = scan.nextLine();
+				
+				boolean exists = us.checkIfExists(inputUser); 
+				if(!exists) {
+					System.out.println("User does not exist.");
+				}else {
+					User u = us.login(inputUser);
+					System.out.println("User "+inputUser+" has "+u.getMoney()+" in their account.");
+					log.trace("Viewed balance of user: "+inputUser);
+				}
 				break;
 			case 5:
 				// view/approve loan requests

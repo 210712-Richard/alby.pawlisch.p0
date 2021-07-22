@@ -13,7 +13,7 @@ public class UserDAO {
 	
 	static {
 		DataSerializer<User> ds = new DataSerializer<User>();
-		users = ds.readMoneyFromFile(filename);
+		users = ds.readObjectsFromFile(filename);
 		
 		// users generated for if users.dat is empty
 		// id(user.size()), username, email, phone, money, password
@@ -27,20 +27,12 @@ public class UserDAO {
 			u.setType(UserType.BANKER);
 			users.add(u);
 			
-			ds.writeMoneyToFile(users, filename);
+			ds.writeObjectsToFile(users, filename);
 		}
 	}
 	
 	
 	public User getUser (String username) {
-		/*
-		for (User user : users) {
-			if (user.getUsername().equals(username)) {
-				return user;
-			}
-		}
-		return null;
-		*/
 		return users.stream()
 				.filter((u) -> u.getUsername().equals(username))
 				.findFirst()
@@ -58,7 +50,7 @@ public class UserDAO {
 	}
 	
 	public void writeToFile() {
-		new DataSerializer<User>().writeMoneyToFile(users, filename);
+		new DataSerializer<User>().writeObjectsToFile(users, filename);
 	}
 	
 

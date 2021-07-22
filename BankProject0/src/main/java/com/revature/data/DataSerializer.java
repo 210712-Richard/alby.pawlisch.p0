@@ -10,19 +10,19 @@ import java.util.List;
 
 public class DataSerializer<T> {
 	
-	public List<T> readMoneyFromFile(String filename) {
-		List<T> money = null;
+	public List<T> readObjectsFromFile(String filename) {
+		List<T> object = null;
 		try(ObjectInputStream o = new ObjectInputStream(new FileInputStream(filename));){
-			money = (ArrayList<T>) o.readObject();
+			object = (ArrayList<T>) o.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return money;
+		return object;
 	}
-
-	public void writeMoneyToFile(List<T> money, String filename) {
+	
+	public void writeObjectsToFile(List<T> objects, String filename) {
 		try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(filename));){
-			o.writeObject(money);
+			o.writeObject(objects);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

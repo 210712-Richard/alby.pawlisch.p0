@@ -14,21 +14,25 @@ public class UserController {
 	private UserService us = new UserService();
 	
 	public void login(Context ctx) {
+		
 		log.trace("Login method called");
 		log.debug(ctx.body());
 		
-		User user = ctx.bodyAsClass(User.class);
-		log.debug(user);
+		User u = ctx.bodyAsClass(User.class);
+		log.debug(u);
 		
-		// create session if login was successful
-		if(user != null) {
-			ctx.sessionAttribute("loggedUser", user);
-			ctx.json(user);
+		u = us.login(u.getUsername());
+		log.debug(u);
+		
+		if(u != null) {
+			ctx.sessionAttribute("loggedUser", u);
+			ctx.json(u);
 			return;
 		}
 		
-		// send 401 if login was not successful
+		//if not successful sends this
 		ctx.status(401);
+		
 	}
 	
 	public void getMoney(Context ctx) {
@@ -39,8 +43,13 @@ public class UserController {
 			ctx.status(403);
 			return;
 		}
+		try {
+			ctx.json(loggedUser.getMoney());
+		} catch (Exception e) {
+			String error = e.toString();
+			ctx.json(error);
+		}
 		
-		ctx.json(loggedUser.getMoney());
 	}
 	
 	public void logout(Context ctx) {
@@ -52,13 +61,44 @@ public class UserController {
 		User user = ctx.bodyAsClass(User.class);
 		
 		if(us.checkAvailability(user.getUsername())) {
-			User newUser = us.register(user.getUsername(), user.getEmail(), user.getPhone());
+			User newUser = us.jsonregister(user.getUsername(), user.getPassword(), user.getEmail(), user.getPhone());
 			ctx.status(201);
 			ctx.json(newUser);
 		} else {
 			ctx.status(409);
 			ctx.html("Username already taken.");
 		}
+	}
+	
+	public void deposit(Context ctx) {
+		User loggedUser = ctx.sessionAttribute("loggedUser");
+		Long depositMoney = ctx.bodyAsClass(Long.class);
+		
+		log.trace("Depositing "+depositMoney.toString()+" to "+loggedUser);
+		
+		String username = ctx.pathParam("username");
+		if(loggedUser == null || !loggedUser.getUsername().equals(username)) {
+			ctx.status(403);
+			return;
+		}
+		us.Deposit(loggedUser, depositMoney);
+		ctx.html("Withdrew funds. New balance: "+loggedUser.getMoney());
+		
+	}
+	
+	public void withdraw(Context ctx) {
+		User loggedUser = ctx.sessionAttribute("loggedUser");
+		Long withdrawMoney = ctx.bodyAsClass(Long.class);
+		
+		log.trace("Depositing "+withdrawMoney.toString()+" to "+loggedUser);
+		
+		String username = ctx.pathParam("username");
+		if(loggedUser == null || !loggedUser.getUsername().equals(username)) {
+			ctx.status(403);
+			return;
+		}
+		us.Withdraw(loggedUser, withdrawMoney);
+		ctx.html("Withdrew funds. New balance: "+loggedUser.getMoney());
 	}
 
 }

@@ -38,16 +38,29 @@ public class UserService {
 	
 	
 	
-	public void register(String username, String password, String email, String phone) {
-		User u = new User();
-		u.setUsername(username);
-		u.setEmail(email);
-		u.setPhone(phone);
-		u.setPassword(password);
-		u.setMoney(0l);
-		ud.addUser(u);
-		ud.writeToFile();
-	}
+//	public void register(String username, String password, String email, String phone) {
+//		User u = new User();
+//		u.setUsername(username);
+//		u.setEmail(email);
+//		u.setPhone(phone);
+//		u.setPassword(password);
+//		u.setMoney(0l);
+//		ud.addUser(u);
+//		ud.writeToFile();
+//	}
 
+	public User register(String username, String email, String phone) {
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPhone(phone);
+		user.setPassword("password");
+		user.setMoney(0l);
+		
+		ud.addUser(user);
+		ud.writeToFile();
+		
+		return user;
+	}
 
 }

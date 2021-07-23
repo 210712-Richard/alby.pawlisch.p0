@@ -30,6 +30,8 @@ public User(Integer id, String username, String email, String phone, Long money,
 	this.password = password;
 }
 
+
+
 public Integer getId() {
 	return id;
 }
@@ -149,6 +151,8 @@ public String toString() {
 	return "User [id=" + id + ", username=" + username + ", email=" + email + ", phone=" + phone + ", type=" + type
 			+ ", money=" + money + ", password=" + password + "]";
 }
+
+
 
 
 

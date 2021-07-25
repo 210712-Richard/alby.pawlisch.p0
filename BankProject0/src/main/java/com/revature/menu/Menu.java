@@ -7,13 +7,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.revature.beans.User;
 import com.revature.services.UserService;
+import com.revature.services.UserServiceImpl;
 import com.revature.util.SingletonScanner;
 
 public class Menu {
 	
 	private static final Logger log = LogManager.getLogger(Menu.class);
 	
-	private UserService us = new UserService();
+	private UserService us = new UserServiceImpl();
 	private User loggedUser = null;
 	private Scanner scan = SingletonScanner.getScanner().getScan();
 	private Long newMoney = null;

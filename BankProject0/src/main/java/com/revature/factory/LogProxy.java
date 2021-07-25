@@ -31,8 +31,16 @@ public class LogProxy implements InvocationHandler {
 		} catch(Exception e) {
 			log.error("Method threw exception: "+e);
 			for(StackTraceElement s: e.getStackTrace()) {
-				log.warn(s), null, e, e, s, proxy, method, args, r
+				log.warn(s);
 			}
+			if(e.getCause() != null) {
+				Throwable t = e.getCause();
+				log.error("Method threw wrapped exception: "+t);
+				for(StackTraceElement s: t.getStackTrace()) {
+					log.warn(s);
+				}
+			}
+			throw e; 
 		}
 
 		return result;

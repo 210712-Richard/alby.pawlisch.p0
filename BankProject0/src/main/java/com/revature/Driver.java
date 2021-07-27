@@ -26,6 +26,16 @@ public class Driver {
 		app.put("/users/:username/deposit", uc::deposit);
 		// withdraw
 		app.put("/users/:username/withdraw", uc::withdraw);
+		// check other's balance
+		app.get("/banking/customerbalance/:requestuser", uc::getOtherMoney);
+		// submit a loan
+		app.put("/users/:username/loanapplication");
+		// see all loans
+		app.get("/banking/loans");
+		// request to see a specific loan
+		app.get("/banking/loans/:loanid");
+		// set new loan status
+		app.put("/banking/loans/:loanid/:status");
 		
 	}
 

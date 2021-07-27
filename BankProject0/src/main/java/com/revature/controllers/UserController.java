@@ -15,5 +15,7 @@ public interface UserController {
 	void deposit(Context ctx);
 
 	void withdraw(Context ctx);
+	
+	void getOtherMoney(Context ctx);
 
 }

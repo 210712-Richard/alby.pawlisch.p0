@@ -14,7 +14,3 @@
 *As a user, I can withdraw/deposit money from/into my account.
 *As a customer, I can apply for a loan.
 *As a banker, I can approve a loan.
-
-##To Do
-*loan request and approval (wait for api?)
-* unit tests

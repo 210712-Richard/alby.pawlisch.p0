@@ -1,5 +1,7 @@
 package com.revature;
 
+import com.revature.controllers.LoanController;
+import com.revature.controllers.LoanControllerImpl;
 import com.revature.controllers.UserController;
 import com.revature.controllers.UserControllerImpl;
 import com.revature.factory.BeanFactory;
@@ -11,6 +13,7 @@ public class Driver {
 		Javalin app = Javalin.create().start(8080);
 		
 		UserController uc = (UserController) BeanFactory.getFactory().get(UserController.class, UserControllerImpl.class);
+		LoanController lc = (LoanController) BeanFactory.getFactory().get(LoanController.class, LoanControllerImpl.class);
 		
 		app.get("/", (ctx)->ctx.html("Hello World"));
 		
@@ -29,13 +32,13 @@ public class Driver {
 		// check other's balance
 		app.get("/banking/customerbalance/:requestuser", uc::getOtherMoney);
 		// submit a loan
-		app.put("/users/:username/loanapplication");
+		app.put("/users/loanapplication", lc::applyLoan);
 		// see all loans
-		app.get("/banking/loans");
+		//app.get("/banking/loans");
 		// request to see a specific loan
-		app.get("/banking/loans/:loanid");
+		//app.get("/banking/loans/:loanid");
 		// set new loan status
-		app.put("/banking/loans/:loanid/:status");
+		//app.put("/banking/loans/:loanid/:status");
 		
 	}
 

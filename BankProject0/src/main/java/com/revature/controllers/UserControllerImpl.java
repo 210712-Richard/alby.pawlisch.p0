@@ -133,16 +133,20 @@ public class UserControllerImpl implements UserController {
 			if(loggedUser.getType() != UserType.BANKER) {
 				ctx.status(403);
 				return;
+			} else {
+				try {
+					ctx.json(viewUser.getMoney());
+				} catch (Exception e) {
+					String error = e.toString();
+					ctx.json(error);
+				}
 			}
-			try {
-				ctx.json(viewUser.getMoney());
-			} catch (Exception e) {
-				String error = e.toString();
-				ctx.json(error);
-			}
+			
 		}
 		
 		
 	}
+	
+	
 
 }

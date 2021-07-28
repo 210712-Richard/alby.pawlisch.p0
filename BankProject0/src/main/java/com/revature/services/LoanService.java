@@ -5,5 +5,7 @@ import com.revature.beans.User;
 
 public interface LoanService {
 	Loan applyLoan(String applyingUser, Long loanAmount, Double interest);
+	
+	Boolean checkIfExists(Integer id);
 
 }

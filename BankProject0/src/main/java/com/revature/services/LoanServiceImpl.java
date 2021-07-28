@@ -26,6 +26,13 @@ public class LoanServiceImpl implements LoanService{
 		return loan;
 	}
 	
+	@Override
+	public Boolean checkIfExists(Integer id) {
+		return loanDAO.getLoans()
+				.stream()
+				.anyMatch((loan)-> loan.getId().equals(id));
+	}
+	
 	
 
 }

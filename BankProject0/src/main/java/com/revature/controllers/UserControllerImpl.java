@@ -27,16 +27,15 @@ public class UserControllerImpl implements UserController {
 		log.trace("Login method called");
 		log.debug(ctx.body());
 		
-		User u = ctx.bodyAsClass(User.class);
-		log.debug(u);
+		User attemptUser = ctx.bodyAsClass(User.class);
+		User approveUser = us.login(attemptUser.getUsername());
 		
-		u = us.login(u.getUsername());
-		log.debug(u);
-		
-		if(u != null) {
-			ctx.sessionAttribute("loggedUser", u);
-			ctx.json(u);
-			return;
+		if (approveUser != null) {
+			if(attemptUser.getPassword().equals(approveUser.getPassword())) {
+				ctx.sessionAttribute("loggedUser", approveUser);
+				ctx.json(approveUser);
+				return;
+			}
 		}
 		
 		//if not successful sends this

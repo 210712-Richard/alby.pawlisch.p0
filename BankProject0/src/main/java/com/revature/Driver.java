@@ -32,13 +32,13 @@ public class Driver {
 		// check other's balance
 		app.get("/banking/customerbalance/:requestuser", uc::getOtherMoney);
 		// submit a loan
-		app.put("/users/loanapplication", lc::applyLoan);
+		app.put("/loanapplication", lc::applyLoan);
 		// see all loans
-		//app.get("/banking/loans");
+		app.get("/banking/loans", lc::viewAllLoans);
 		// request to see a specific loan
-		//app.get("/banking/loans/:loanid");
+		app.get("/banking/loans/:loanid", lc::viewLoan);
 		// set new loan status
-		//app.put("/banking/loans/:loanid/:status");
+		app.put("/banking/loans/:loanid/:status", lc::changeLoanStatus);
 		
 	}
 

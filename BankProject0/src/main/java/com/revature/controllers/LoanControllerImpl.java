@@ -25,11 +25,15 @@ public class LoanControllerImpl implements LoanController {
 		@Override
 		public void applyLoan(Context ctx) {
 			log.debug(ctx.body());
-			Loan loan = ctx.bodyAsClass(Loan.class);
 			User loggedUser = ctx.sessionAttribute("loggedUser");
 			String applyingUser = loggedUser.getUsername();
+
+			Loan loan = ctx.bodyAsClass(Loan.class);
+			Long loanAmount = loan.getLoanAmount();
+			Double interest = loan.getInterest();
 			
-			Loan newLoan = loanService.applyLoan(applyingUser, loan.getLoanAmount(), loan.getInterest());
+			ctx.json(loan);
+			Loan newLoan = loanService.applyLoan(applyingUser, loanAmount, interest);
 			ctx.status(201);
 			ctx.json(newLoan);
 			
@@ -56,7 +60,15 @@ public class LoanControllerImpl implements LoanController {
 				ctx.status(403);
 				return;
 			} else {
-				ctx.json(loanDAO.getLoan(loanId));
+				boolean notExist = loanService.checkIfExists(loanId);
+				if(notExist == true) {
+					ctx.json(loanDAO.getLoan(loanId));
+				} else {
+					ctx.status(404);
+					ctx.html("Loan ID "+loanId+" does not exist");
+				}
+				
+				
 			}
 			
 			
@@ -65,11 +77,32 @@ public class LoanControllerImpl implements LoanController {
 		@Override
 		public void changeLoanStatus(Context ctx) {
 			User loggedUser = ctx.sessionAttribute("loggedUser");
+			Integer loanId = Integer.parseInt(ctx.pathParam("loanid"));
 			
 			if(loggedUser.getType() != UserType.BANKER) {
 				ctx.status(403);
 				return;
 			} else {
+				
+				boolean notExist = loanService.checkIfExists(loanId);
+				
+				if(notExist == false) {
+					ctx.status(404);
+					ctx.html("Loan ID "+loanId+" does not exist");
+				} else {
+					Loan changedLoan = loanDAO.getLoan(loanId);
+					String approve = "approve";
+					String status = ctx.pathParam("status");
+					if(status.equals(approve)) {
+						changedLoan.setLoanStatus(true);
+						ctx.json("Loan has been approved.");
+						
+					} else {
+						changedLoan.setLoanStatus(false);
+						ctx.json("Loan has not been approved.");
+					}
+				}
+				
 				
 			}
 			

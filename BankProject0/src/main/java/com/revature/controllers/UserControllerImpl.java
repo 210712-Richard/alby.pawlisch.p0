@@ -94,7 +94,7 @@ public class UserControllerImpl implements UserController {
 			return;
 		}
 		us.Deposit(loggedUser, depositMoney);
-		ctx.html("Withdrew funds. New balance: "+loggedUser.getMoney());
+		ctx.html("Deposited funds. New balance: "+loggedUser.getMoney());
 		
 	}
 	
